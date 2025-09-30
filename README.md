@@ -21,8 +21,8 @@ A Python script that generates custom UNO cards using OpenAI's AI image generati
 
 ## Requirements
 
-- Python 3.9+
-- OpenAI API key (for image generation)
+- Python 3.12
+- OpenAI API key (for image generation - optional if using local image only)
 
 ## 🚀 Installation
 
