@@ -22,7 +22,7 @@ if openai_api_key:
     client = OpenAI(api_key=openai_api_key)
 
 openai_model = os.getenv("OPENAI_IMAGE_MODEL", "gpt-image-1")
-openai_size = os.getenv("OPENAI_IMAGE_SIZE", "1024x1792")
+openai_size = os.getenv("OPENAI_IMAGE_SIZE", "1024x1536")
 
 # docs: https://platform.openai.com/docs/guides/image-generation?image-generation-model=dall-e-3#generate-images
 
@@ -222,7 +222,7 @@ def prompt_for_card(card: Card) -> str:
 
 
 # openai image generation
-def gen_image_from_openai(prompt: str, size: str = "1024x1024") -> Image.Image:
+def gen_image_from_openai(prompt: str, size: str) -> Image.Image:
     result = client.images.generate(model="gpt-image-1", prompt=prompt, size=size)
 
     # response comes in base64
@@ -425,7 +425,7 @@ def generate_all_cards() -> List[str]:
             print(
                 f"[{i:03d}/108] {card.color} {card.kind} {card.value if card.value is not None else ''} -> {prompt}"
             )
-            art = gen_image_from_openai(prompt)
+            art = gen_image_from_openai(prompt, openai_size)
 
         card_img = render_card(card, art)
         out_path = os.path.join(OUTPUT_DIR, filename_for(card))
