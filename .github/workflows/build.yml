@@ -1,0 +1,76 @@
+name: Build
+
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'extras/images/**'
+  release:
+    types: [published]
+
+jobs:
+  build:
+    name: ${{ matrix.config.name }} - Python ${{ matrix.python-version }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - { name: "Linux", os: "ubuntu-24.04" }
+        python-version: ["3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Upgrade PIP
+        run: python3 -m pip install --upgrade pip setuptools wheel
+
+      - name: Display Python version
+        run: python3 --version
+
+      - name: Display PIP version
+        run: python3 -m pip --version
+
+      - name: Install python dependencies
+        run: python3 -m pip install -r requirements.txt
+
+      - name: Build
+        env:
+          UNO_TEST_MODE: "true"
+        run: python3 main.py
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: uno-cards-pdf
+          path: uno-cards-out/uno-cards.pdf
+          retention-days: 30
+
+  release:
+    needs: build
+    runs-on: ubuntu-24.04
+    if: github.event_name == 'release'
+
+    steps:
+      - name: Download PDF artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: uno-cards-pdf
+          path: ./
+
+      - name: Upload PDF to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./uno-cards-out/uno-cards.pdf
+          asset_name: uno-cards.pdf
+          asset_content_type: application/pdf
+
