@@ -1,3 +1,9 @@
+<p align="center">
+    <a href="https://github.com/paulocoutinhox/uno-cards" target="_blank" rel="noopener noreferrer">
+        <img width="180" src="extras/images/screenshot.png" alt="Uno Cards Screenshot">
+    </a>
+</p>
+
 # UNO Cards Generator
 
 [![Build](https://github.com/paulocoutinhox/uno-cards/actions/workflows/build.yml/badge.svg)](https://github.com/paulocoutinhox/uno-cards/actions/workflows/build.yml)
