@@ -18,10 +18,9 @@ except Exception:
     raise SystemExit("Install the sdk first: pip install openai")
 
 openai_api_key = os.getenv("OPENAI_API_KEY")
-if not openai_api_key:
-    raise SystemExit("Set openai_api_key environment variable")
+if openai_api_key:
+    client = OpenAI(api_key=openai_api_key)
 
-client = OpenAI(api_key=openai_api_key)
 openai_model = os.getenv("OPENAI_IMAGE_MODEL", "gpt-image-1")
 openai_size = os.getenv("OPENAI_IMAGE_SIZE", "1024x1792")
 
