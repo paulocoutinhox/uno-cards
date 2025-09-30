@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://github.com/paulocoutinhox/uno-cards" target="_blank" rel="noopener noreferrer">
-        <img width="180" src="extras/images/screenshot.png" alt="Uno Cards Screenshot">
+        <img width="130" src="extras/images/screenshot.png" alt="Uno Cards Screenshot">
     </a>
 </p>
 
